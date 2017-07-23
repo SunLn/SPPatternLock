@@ -45,8 +45,7 @@ class ViewController: UIViewController {
         view.addSubview(complexSwitch)
         
         title = "SPPatternLock - version 2"
-        view.backgroundColor = UIColor.lightGray
-        
+        view.backgroundColor = UIColor.init(colorLiteralRed: 240, green: 90, blue: 80, alpha: 1)
         updateLockScreen(withSize: currentSize, allowComplex: true)
     }
     
@@ -56,7 +55,14 @@ class ViewController: UIViewController {
         let lockFrame = CGRect(origin: CGPoint(x: 0, y: complexSwitch.frame.maxY+10), size: CGSize(width: view.frame.width, height: view.frame.width))
         // Example of using config
         var config = LockScreen.Config()
-        config.lineColor = UIColor.purple
+        config.lineColor = UIColor.white
+        config.lineWidth = 5
+        config.outerCircleRaidus = 20
+        config.circleOuterRingColor = UIColor.white
+        config.circleHighlightColor = UIColor.init(colorLiteralRed: 255, green: 255, blue: 255, alpha: 0.3)
+        config.circleInnerRingColor = UIColor.init(colorLiteralRed: 255, green: 117, blue: 80, alpha: 1)
+        
+        
         lockScreenView = LockScreen(frame: lockFrame, size: size, allowClosedPattern: allowComplex, config: config) { [weak self] (pattern, order) in
             print(order.description)
             print(pattern)

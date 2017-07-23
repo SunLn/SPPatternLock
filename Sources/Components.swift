@@ -17,6 +17,14 @@ class Circle: UIView {
         didSet { setNeedsDisplay() }
     }
     
+    var outerCircleRaidus: CGFloat = 0 {
+        didSet { setNeedsDisplay() }
+    }
+    
+    var outerCircleBorderColor: UIColor = UIColor.black {
+        didSet { setNeedsDisplay() }
+    }
+    
     var innercolor = UIColor.darkGray {
         didSet { setNeedsDisplay() }
     }
@@ -52,10 +60,31 @@ class Circle: UIView {
     override func draw(_ rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
         // Outermost circle
-        let outerRect = CGRect(origin: CGPoint(x: rect.origin.x + lineWidth, y: rect.origin.y + lineWidth), size: CGSize(width: rect.size.width - 2*lineWidth, height: rect.height - 2*lineWidth))
+        let x: CGFloat, y: CGFloat
+        var outerRectWidth = outerCircleRaidus * 2
+        if outerRectWidth != 0 {
+            x = rect.origin.x + rect.size.width/2 - outerCircleRaidus
+            y = rect.origin.y + rect.size.height/2 - outerCircleRaidus
+        } else {
+            x = rect.origin.x + lineWidth
+            y = rect.origin.y + lineWidth
+            outerRectWidth = rect.size.width - 2 * lineWidth
+        }
+        
+        let outerRect = CGRect(
+            origin: CGPoint(x: x, y: y),
+            size: CGSize(
+                width: outerRectWidth,
+                height: outerRectWidth
+                )
+        )
+        
         ctx?.setLineWidth(lineWidth)
+        ctx?.setFillColor(outerCircleBorderColor.cgColor)
         ctx?.setStrokeColor(outerColor.cgColor)
         ctx?.fillEllipse(in: outerRect)
+        
+    
         // Second circle
         let innerRect = outerRect.insetBy(dx: 1, dy: 1)
         ctx?.setFillColor(innercolor.cgColor)

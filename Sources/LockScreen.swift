@@ -39,6 +39,8 @@ public class LockScreen: UIView {
         public var circleOuterRingColor: UIColor = UIColor.magenta
         public var circleInnerRingColor: UIColor = UIColor.darkGray
         public var circleHighlightColor: UIColor = UIColor.yellow
+        public var outerCircleRaidus: CGFloat = 0
+        public var outerCircleBorderColor: UIColor = UIColor.black
         
         // Public Initializer for Config
         public init() {}
@@ -81,20 +83,22 @@ public class LockScreen: UIView {
     func setupScreen() {
         let grid = Double(min(frame.width, frame.height))/Double(2*size+1)
         let gap = grid
-        let topOffset = grid
         let radius = grid/2
 
         for index in 0..<numberOfCircles {
+            
             let circle = Circle(radius: CGFloat(radius))
             circle.outerColor = config.circleOuterRingColor
             circle.innercolor = config.circleInnerRingColor
             circle.highlightColor = config.circleHighlightColor
             circle.lineWidth = config.lineWidth
+            circle.outerCircleRaidus = config.outerCircleRaidus
+            circle.outerCircleBorderColor = config.outerCircleBorderColor
             
-            let row = index/size
+            let row = index / size
             let col = index % size
-            let x = (gap + radius) + (gap + 2*radius)*Double(col)
-            let y = (Double(row) * gap + Double(row) * 2.0 * radius) + topOffset
+            let x = gap * Double(col * 2 + 1) + radius
+            let y = gap * Double(row * 2 + 1)
             circle.center = CGPoint(x: x, y: y)
             circle.tag = (row+kSeed)*kTagId + (col + kSeed)
             addSubview(circle)
@@ -178,11 +182,8 @@ public class LockScreen: UIView {
             cellsInOrder.append(currentCellIndex)
             
         }else if cellPos >= 0 && cellPos != oldCellIndex && allowClosedPattern == false && cellsInOrder.count < size*size{
-            
             cellsInOrder.append(currentCellIndex)
-
         }
-        print(finalLines)
         if cellPos < 0 && oldCellIndex < 0 {
             return
         } else if cellPos < 0, let circle = cell(at: oldCellIndex) {
