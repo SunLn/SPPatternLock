@@ -38,9 +38,12 @@ public class LockScreen: UIView {
         public var lineEdgeColor: UIColor = UIColor.white
         public var circleOuterRingColor: UIColor = UIColor.magenta
         public var circleInnerRingColor: UIColor = UIColor.darkGray
+        public var circleInnerHighlightColor: UIColor = UIColor.black
         public var circleHighlightColor: UIColor = UIColor.yellow
         public var outerCircleRaidus: CGFloat = 0
         public var outerCircleBorderColor: UIColor = UIColor.black
+        public var circleInnerBorderColor: UIColor = UIColor.black
+        
         
         // Public Initializer for Config
         public init() {}
@@ -90,6 +93,8 @@ public class LockScreen: UIView {
             let circle = Circle(radius: CGFloat(radius))
             circle.outerColor = config.circleOuterRingColor
             circle.innercolor = config.circleInnerRingColor
+            circle.innerBorderColor = config.circleInnerBorderColor
+            circle.innerHighlightColor = config.circleInnerHighlightColor
             circle.highlightColor = config.circleHighlightColor
             circle.lineWidth = config.lineWidth
             circle.outerCircleRaidus = config.outerCircleRaidus

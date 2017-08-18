@@ -29,6 +29,14 @@ class Circle: UIView {
         didSet { setNeedsDisplay() }
     }
     
+    var innerHighlightColor = UIColor.darkGray {
+        didSet { setNeedsDisplay() }
+    }
+    
+    var innerBorderColor = UIColor.darkGray {
+        didSet { setNeedsDisplay() }
+    }
+    
     var highlightColor = UIColor.yellow {
         didSet { setNeedsDisplay() }
     }
@@ -83,18 +91,29 @@ class Circle: UIView {
         ctx?.setFillColor(outerCircleBorderColor.cgColor)
         ctx?.setStrokeColor(outerColor.cgColor)
         ctx?.fillEllipse(in: outerRect)
-        
-    
-        // Second circle
-        let innerRect = outerRect.insetBy(dx: 1, dy: 1)
-        ctx?.setFillColor(innercolor.cgColor)
-        ctx?.fillEllipse(in: innerRect)
+
         // For selected circles, the third circle
         if isSelected {
-            let highlightRect = outerRect.insetBy(dx: 10, dy: 10)
-            ctx?.setFillColor(highlightColor.cgColor)
+            let highlightRect = outerRect.insetBy(dx: -6, dy: -6)
+            ctx?.setFillColor(innerBorderColor.cgColor)
             ctx?.fillEllipse(in: highlightRect)
+            
+            let highlightRect2 = highlightRect.insetBy(dx: 1, dy: 1)
+            ctx?.setFillColor(highlightColor.cgColor)
+            ctx?.fillEllipse(in: highlightRect2)
         }
+        
+        // Second circle
+        let innerRect = outerRect.insetBy(dx: 2, dy: 2)
+        if isSelected {
+            ctx?.setFillColor(innerHighlightColor.cgColor)
+        } else {
+            ctx?.setFillColor(innercolor.cgColor)
+        }
+        ctx?.fillEllipse(in: innerRect)
+        
+        
+
     }
     
 }
