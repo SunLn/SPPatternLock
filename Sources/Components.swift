@@ -13,39 +13,19 @@ import CoreGraphics
 class Circle: UIView {
     
     // *** Customizable attributes ***
-    var outerColor = UIColor.magenta {
+    var radius: [CGFloat] = [24, 12.5, 7.5] {
         didSet { setNeedsDisplay() }
     }
     
-    var outerCircleRaidus: CGFloat = 0 {
+    var colors: [UIColor] = [UIColor.red, UIColor.blue, UIColor.yellow] {
         didSet { setNeedsDisplay() }
     }
     
-    var outerCircleBorderColor: UIColor = UIColor.black {
+    var highlightColors: [UIColor] = [UIColor.black, UIColor.orange, UIColor.green] {
         didSet { setNeedsDisplay() }
     }
     
-    var outerCircleHightColor: UIColor = UIColor.black {
-        didSet { setNeedsDisplay() }
-    }
-    
-    var innercolor = UIColor.darkGray {
-        didSet { setNeedsDisplay() }
-    }
-    
-    var innerHighlightColor = UIColor.darkGray {
-        didSet { setNeedsDisplay() }
-    }
-    
-    var innerBorderColor = UIColor.darkGray {
-        didSet { setNeedsDisplay() }
-    }
-    
-    var highlightColor = UIColor.yellow {
-        didSet { setNeedsDisplay() }
-    }
-    
-    var lineWidth: CGFloat = 5 {
+    var lineWidth: CGFloat = 25 {
         didSet { setNeedsDisplay() }
     }
     
@@ -69,61 +49,49 @@ class Circle: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func draw(_ rect: CGRect) {
-        let ctx = UIGraphicsGetCurrentContext()
-        // Outermost circle
+    func getRadiusRect(radius: CGFloat, rect: CGRect) -> CGRect {
         let x: CGFloat, y: CGFloat
-        var outerRectWidth = outerCircleRaidus * 2
-        if outerRectWidth != 0 {
-            x = rect.origin.x + rect.size.width/2 - outerCircleRaidus
-            y = rect.origin.y + rect.size.height/2 - outerCircleRaidus
+        var rectWidth = radius * 2
+        if rectWidth != 0 {
+            x = rect.origin.x + rect.size.width/2 - radius
+            y = rect.origin.y + rect.size.height/2 - radius
         } else {
             x = rect.origin.x + lineWidth
             y = rect.origin.y + lineWidth
-            outerRectWidth = rect.size.width - 2 * lineWidth
+            rectWidth = rect.size.width - 2 * lineWidth
         }
         
         let outerRect = CGRect(
             origin: CGPoint(x: x, y: y),
             size: CGSize(
-                width: outerRectWidth,
-                height: outerRectWidth
+                width: rectWidth,
+                height: rectWidth
             )
         )
+        return outerRect
+    }
+    
+    override func draw(_ rect: CGRect) {
+        let ctx = UIGraphicsGetCurrentContext()
+        // Outermost circle
 
         ctx?.setLineWidth(lineWidth)
-        
-        ctx?.setFillColor(outerCircleBorderColor.cgColor)
-        ctx?.setStrokeColor(outerColor.cgColor)
-        
-        ctx?.fillEllipse(in: outerRect)
-        
-        // For selected circles, the third circle
-        if isSelected {
-            let highlightRect = outerRect.insetBy(dx: -15, dy: -15)
-            ctx?.setFillColor(innerBorderColor.cgColor)
-            ctx?.fillEllipse(in: highlightRect)
-            
-            let highlightRect2 = highlightRect.insetBy(dx: 1, dy: 1)
-            ctx?.setFillColor(highlightColor.cgColor)
-            ctx?.fillEllipse(in: highlightRect2)
+        if (radius.count != colors.count) || (radius.count != highlightColors.count) {
+            fatalError("radius/colors/highlightColors count not equal")
         }
         
-        // Second circle
-        let innerRect = outerRect.insetBy(dx: -4, dy: -4)
-        if isSelected {
-            ctx?.setFillColor(innerHighlightColor.cgColor)
-            ctx?.fillEllipse(in: innerRect)
-            ctx?.setFillColor(outerCircleHightColor.cgColor)
-            ctx?.setStrokeColor(outerColor.cgColor)
-            
-            ctx?.fillEllipse(in: outerRect)
-        } else {
-            ctx?.setFillColor(innercolor.cgColor)
-            ctx?.fillEllipse(in: innerRect)
+        for (index, value) in radius.enumerated() {
+            let radiusRect = self.getRadiusRect(radius: value, rect: rect)
+            if isSelected {
+                ctx?.setFillColor(highlightColors[index].cgColor)
+                ctx?.setStrokeColor(highlightColors[index].cgColor)
+                ctx?.fillEllipse(in: radiusRect)
+            } else {
+                ctx?.setFillColor(colors[index].cgColor)
+                ctx?.setStrokeColor(colors[index].cgColor)
+                ctx?.fillEllipse(in: radiusRect)
+            }
         }
-        
-
     }
     
 }

@@ -36,14 +36,9 @@ public class LockScreen: UIView {
         public var lineWidth: CGFloat = 5
         public var lineColor: UIColor = UIColor.white
         public var lineEdgeColor: UIColor = UIColor.white
-        public var circleOuterRingColor: UIColor = UIColor.magenta
-        public var circleInnerRingColor: UIColor = UIColor.darkGray
-        public var circleInnerHighlightColor: UIColor = UIColor.black
-        public var circleHighlightColor: UIColor = UIColor.yellow
-        public var outerCircleRaidus: CGFloat = 0
-        public var outerCircleBorderColor: UIColor = UIColor.black
-        public var circleInnerBorderColor: UIColor = UIColor.black
-        public var outerCircleHightColor: UIColor = UIColor.black
+        public var radius: [CGFloat] = [24, 18, 10]
+        public var colors: [UIColor] = [UIColor.red, UIColor.blue, UIColor.yellow]
+        public var highlightColors: [UIColor] = [UIColor.black, UIColor.orange, UIColor.green]
         
         // Public Initializer for Config
         public init() {}
@@ -91,16 +86,10 @@ public class LockScreen: UIView {
         for index in 0..<numberOfCircles {
             
             let circle = Circle(radius: CGFloat(radius))
-            circle.outerColor = config.circleOuterRingColor
-            circle.innercolor = config.circleInnerRingColor
-            circle.innerBorderColor = config.circleInnerBorderColor
-            circle.innerHighlightColor = config.circleInnerHighlightColor
-            circle.highlightColor = config.circleHighlightColor
             
-            circle.lineWidth = config.lineWidth
-            circle.outerCircleRaidus = config.outerCircleRaidus
-            circle.outerCircleBorderColor = config.outerCircleBorderColor
-            circle.outerCircleHightColor = config.outerCircleHightColor
+            circle.radius = config.radius
+            circle.colors = config.colors
+            circle.highlightColors = config.highlightColors
             
             let row = index / size
             let col = index % size
