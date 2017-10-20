@@ -52,6 +52,7 @@ public class LockScreen: UIView {
     
     public typealias PatternHandlerBlock = ((Double,[Int]) -> Void)
     var patternHandler: PatternHandlerBlock?
+    var patternTrackHandler: PatternHandlerBlock?
     
     /**
      Initializes the main lock screen
@@ -72,6 +73,10 @@ public class LockScreen: UIView {
         setNeedsDisplay()
         setupScreen()
         setupGestures()
+    }
+
+    public func track(_ handler: PatternHandlerBlock? = nil) {
+        self.patternTrackHandler = handler
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -129,6 +134,7 @@ public class LockScreen: UIView {
                 perform(#selector(endPattern), with: nil, afterDelay: 0.3)
             }
         }
+        patternTrackHandler?(uniqueIdOfCurrentPattern, cellsInOrder)
     }
     
     /// MARK: Helpers
