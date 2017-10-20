@@ -82,7 +82,7 @@ public class LockScreen: UIView {
         let grid = Double(min(frame.width, frame.height))/Double(2*size+1)
         let gap = grid
         for index in 0..<numberOfCircles {
-            let circle = Circle(radius: CGFloat(grid))
+            let circle = Circle(radius: CGFloat(grid/2))
             
             circle.radius = config.radius
             circle.colors = config.colors
