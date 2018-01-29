@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'SPPatternLock'
-  s.version = '2.0.8'
+  s.version = '2.0.9'
   s.license = { :type => 'MIT', :file => 'LICENSE'  }
   s.summary = 'Simple and elegant Pattern Lock for iOS'
   s.social_media_url = 'http://twitter.com/iosCook'
