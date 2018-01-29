@@ -117,7 +117,7 @@ public class LockScreen: UIView {
         addGestureRecognizer(tap)
     }
     
-    func gestured(gesture: UIGestureRecognizer) {
+    @objc func gestured(gesture: UIGestureRecognizer) {
         let point = gesture.location(in: self)
         if gesture is UIPanGestureRecognizer {
             if gesture.state == .ended {
@@ -139,7 +139,7 @@ public class LockScreen: UIView {
     
     /// MARK: Helpers
     
-    func endPattern() {
+    @objc func endPattern() {
         patternHandler?(uniqueIdOfCurrentPattern,cellsInOrder)
         resetScreen()
     }

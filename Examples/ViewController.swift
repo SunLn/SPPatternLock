@@ -76,11 +76,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func onSwitch(sender: AnyClass) {
+    @objc func onSwitch(sender: AnyClass) {
         updateLockScreen(withSize: currentSize, allowComplex: complexSwitch.isOn)
     }
     
-    func onDrag(sender: AnyClass) {
+    @objc func onDrag(sender: AnyClass) {
         let size = Int(slider.value)
         if size != currentSize {
             updateLockScreen(withSize: size, allowComplex: complexSwitch.isOn)
